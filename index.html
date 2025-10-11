@@ -41,6 +41,15 @@
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .map-wrapper {
+            flex: 1;
+        }
+        .legend-sidebar {
+            width: 120px;
+            padding: 10px;
         }
         .description {
             margin-top: 15px;
@@ -67,7 +76,29 @@
         }
         #vis {
             display: block;
-            margin: 0 auto;
+        }
+        .legend-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .legend-scale {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 12px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
@@ -79,17 +110,38 @@
         </div>
 
         <div class="viz-container">
-            <div id="dropdown-container"></div>
-            <div id="vis"></div>
-            <div class="description">
-                <h3>Water Consumption by State and Sector</h3>
-                <p>This choropleth map shows water consumption across Malaysian states. Use the dropdown to switch between domestic and non-domestic water usage. Darker blue indicates higher consumption levels. Selangor has the highest consumption at 2,230 million liters for domestic use.</p>
-                <p><strong>Interactions:</strong></p>
-                <ul>
-                    <li>Use the dropdown filter to switch between Domestic and Non-Domestic sectors</li>
-                    <li>Hover over states to see detailed consumption information</li>
-                    <li>Text annotation highlights the highest consumption area</li>
-                </ul>
+            <div class="map-wrapper">
+                <div id="dropdown-container"></div>
+                <div id="vis"></div>
+            </div>
+            <div class="legend-sidebar">
+                <div class="legend-title">Water Consumption (million liters)</div>
+                <div class="legend-scale">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #eff3ff"></div>
+                        <span>0</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #bdd7e7"></div>
+                        <span>500</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #6baed6"></div>
+                        <span>1,000</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #3182bd"></div>
+                        <span>1,500</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #08519c"></div>
+                        <span>2,000</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #08306b"></div>
+                        <span>2,500</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -101,7 +153,7 @@
     <script type="text/javascript">
         var vg_1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 850,
+  "width": 700,
   "height": 520,
 
   "title": {
@@ -116,7 +168,7 @@
     "type": "mercator",
     "center": [108, 4],
     "scale": 2700,
-    "translate": [450, 260]
+    "translate": [400, 260]
   },
 
   "params": [
@@ -205,14 +257,12 @@
         "color": {
           "field": "selected_value",
           "type": "quantitative",
-          "title": "Water Consumption (million liters)",
+          "title": null,
           "scale": { 
             "domain": [0, 2500], 
             "scheme": "blues"
           },
-          "legend": {
-            "orient": "none"
-          }
+          "legend": null
         },
         "tooltip": [
           { "field": "properties.Name", "title": "State" },
