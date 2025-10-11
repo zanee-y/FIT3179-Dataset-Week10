@@ -81,16 +81,6 @@
         <div class="viz-container">
             <div id="dropdown-container"></div>
             <div id="vis"></div>
-            <div class="description">
-                <h3>Water Consumption by State and Sector</h3>
-                <p>This choropleth map shows water consumption across Malaysian states. Use the dropdown to switch between domestic and non-domestic water usage. Darker blue indicates higher consumption levels. Selangor has the highest consumption at 2,230 million liters for domestic use.</p>
-                <p><strong>Interactions:</strong></p>
-                <ul>
-                    <li>Use the dropdown filter to switch between Domestic and Non-Domestic sectors</li>
-                    <li>Hover over states to see detailed consumption information</li>
-                    <li>Text annotation highlights the highest consumption area</li>
-                </ul>
-            </div>
         </div>
 
         <div class="footer">
@@ -211,7 +201,10 @@
             "scheme": "blues"
           },
           "legend": {
-            "orient": "none"
+            "orient": "right",
+            "direction": "vertical",
+            "gradientLength": 200,
+            "format": ",.0f"
           }
         },
         "tooltip": [
@@ -243,8 +236,7 @@
   ],
 
   "config": {
-    "view": { "stroke": null },
-    "legend": { "disable": true }
+    "view": { "stroke": null }
   }
 };
 
