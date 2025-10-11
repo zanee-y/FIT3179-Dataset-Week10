@@ -1,6 +1,6 @@
 var vg_1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 700,
+  "width": 850,
   "height": 520,
 
   "title": {
@@ -8,15 +8,28 @@ var vg_1 = {
     "subtitle": "Domestic vs Non-Domestic water use (million liters)",
     "fontSize": 18,
     "subtitleFontSize": 13,
-    "anchor": "start"
+    "anchor": "middle"
   },
 
   "projection": {
     "type": "mercator",
     "center": [108, 4],
     "scale": 2700,
-    "translate": [400, 260]
+    "translate": [450, 260]
   },
+
+  "params": [
+    {
+      "name": "sector_select",
+      "value": "domestic",
+      "bind": {
+        "input": "select",
+        "options": ["domestic", "nondomestic"],
+        "labels": ["Domestic", "Non-Domestic"],
+        "name": "Select Sector: "
+      }
+    }
+  ],
 
   "layer": [
     {
@@ -89,49 +102,21 @@ var vg_1 = {
       },
       "encoding": {
         "color": {
-          "field": "selected_value",
-          "type": "quantitative",
-          "scale": { 
-            "domain": [0, 2500], 
-            "scheme": "blues"
-          }
-        },
-        "tooltip": [
-          { "field": "properties.Name", "title": "State" },
-          { "field": "selected_sector", "title": "Sector" },
-          { "field": "selected_value", "title": "Consumption (million liters)", "type": "quantitative", "format": "," }
-        ]
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {"lon": 98.8, "lat": 3.2, "note": "(Highest Consumption Area)"}
-        ]
-      },
-      "mark": {
-        "type": "text", 
-        "fontSize": 9, 
-        "fontWeight": "bold", 
-        "fill": "black",
-        "align": "left"
-      },
-      "encoding": {
-        "longitude": {"field": "lon", "type": "quantitative"},
-        "latitude": {"field": "lat", "type": "quantitative"},
-        "text": {"field": "note", "type": "nominal"}
-      }
-    }
-  ],
-
-  "config": {
-    "view": { "stroke": null },
-    "legend": false
+  "field": "selected_value",
+  "type": "quantitative",
+  "title": "Water Consumption (million liters)",
+  "scale": { 
+    "domain": [0, 2500], 
+    "scheme": "blues",
+    "range": [0, 2500]
+  },
+  "legend": {
+    "orient": "right",
+    "direction": "vertical",
+    "gradientLength": 180,
+    "format": ",.0f",
+    "values": [0, 500, 1000, 1500, 2000, 2500]  // Add this line for specific values
   }
-};
-
-// render into div with id="vis"
-vegaEmbed("#vis", vg_1, { actions: false }).then(function(result) {
-  // Store the view for later use
-  window.vegaView = result.view;
-}).catch(console.error);
+}
+}
+}
