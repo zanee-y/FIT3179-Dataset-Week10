@@ -45,7 +45,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "mark": {
@@ -57,7 +57,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "transform": [
