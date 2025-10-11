@@ -8,7 +8,7 @@ var vg_1 = {
     "subtitle": "Domestic vs Non-Domestic water use (million liters)",
     "fontSize": 18,
     "subtitleFontSize": 13,
-    "anchor": "start"
+    "anchor": "middle"
   },
 
   "projection": {
@@ -26,8 +26,7 @@ var vg_1 = {
         "input": "select",
         "options": ["domestic", "nondomestic"],
         "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: ",
-        "element": "#dropdown-container"
+        "name": "Select Sector: "
       }
     }
   ],
@@ -46,7 +45,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "mark": {
@@ -58,7 +57,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "transform": [
@@ -106,13 +105,12 @@ var vg_1 = {
           "field": "selected_value",
           "type": "quantitative",
           "title": "Water Consumption (million liters)",
-          "scale": { 
-            "domain": [0, 2500], 
-            "scheme": "blues",
-            "range": [0, 2500]
-          },
+          "scale": { "domain": [0, 2500], "scheme": "blues" },
           "legend": {
-            "orient": "none"
+            "orient": "right",
+            "direction": "vertical",
+            "gradientLength": 180,
+            "format": ","
           }
         },
         "tooltip": [
@@ -145,19 +143,9 @@ var vg_1 = {
 
   "config": {
     "view": { "stroke": null },
-    "legend": { "disable": true }
+    "legend": { "labelFontSize": 11, "titleFontSize": 12 }
   }
 };
-
-// Create a custom container for the dropdown
-const dropdownContainer = document.createElement('div');
-dropdownContainer.id = 'dropdown-container';
-dropdownContainer.style.marginBottom = '10px';
-dropdownContainer.style.textAlign = 'left';
-
-// Insert the dropdown container before the visualization
-const visElement = document.getElementById('vis');
-visElement.parentNode.insertBefore(dropdownContainer, visElement);
 
 // render into div with id="vis"
 vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
