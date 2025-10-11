@@ -18,19 +18,6 @@ var vg_1 = {
     "translate": [400, 260]
   },
 
-  "params": [
-    {
-      "name": "sector_select",
-      "value": "domestic",
-      "bind": {
-        "input": "select",
-        "options": ["domestic", "nondomestic"],
-        "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: "
-      }
-    }
-  ],
-
   "layer": [
     {
       "data": {
@@ -106,10 +93,8 @@ var vg_1 = {
           "type": "quantitative",
           "scale": { 
             "domain": [0, 2500], 
-            "scheme": "blues",
-            "range": [0, 2500]
-          },
-          "legend": null
+            "scheme": "blues"
+          }
         },
         "tooltip": [
           { "field": "properties.Name", "title": "State" },
@@ -141,10 +126,12 @@ var vg_1 = {
 
   "config": {
     "view": { "stroke": null },
-    "axis": { "disable": true },
-    "legend": { "disable": true }
+    "legend": false
   }
 };
 
 // render into div with id="vis"
-vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
+vegaEmbed("#vis", vg_1, { actions: false }).then(function(result) {
+  // Store the view for later use
+  window.vegaView = result.view;
+}).catch(console.error);
