@@ -1,6 +1,6 @@
 var vg_1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 850,
+  "width": 700,
   "height": 520,
 
   "title": {
@@ -8,14 +8,14 @@ var vg_1 = {
     "subtitle": "Domestic vs Non-Domestic water use (million liters)",
     "fontSize": 18,
     "subtitleFontSize": 13,
-    "anchor": "middle"
+    "anchor": "start"
   },
 
   "projection": {
     "type": "mercator",
     "center": [108, 4],
     "scale": 2700,
-    "translate": [450, 260]
+    "translate": [400, 260]
   },
 
   "params": [
@@ -45,7 +45,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "mark": {
@@ -57,7 +57,7 @@ var vg_1 = {
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "transform": [
@@ -104,14 +104,12 @@ var vg_1 = {
         "color": {
           "field": "selected_value",
           "type": "quantitative",
-          "title": "Water Consumption (million liters)",
-          "scale": { "domain": [0, 2500], "scheme": "blues" },
-          "legend": {
-            "orient": "right",
-            "direction": "vertical",
-            "gradientLength": 180,
-            "format": ","
-          }
+          "title": null,
+          "scale": { 
+            "domain": [0, 2500], 
+            "scheme": "blues"
+          },
+          "legend": null
         },
         "tooltip": [
           { "field": "properties.Name", "title": "State" },
@@ -143,7 +141,7 @@ var vg_1 = {
 
   "config": {
     "view": { "stroke": null },
-    "legend": { "labelFontSize": 11, "titleFontSize": 12 }
+    "legend": { "disable": true }
   }
 };
 
