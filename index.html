@@ -44,12 +44,55 @@
             display: flex;
             gap: 20px;
         }
+        .left-sidebar {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
         .map-wrapper {
             flex: 1;
         }
-        .legend-sidebar {
-            width: 120px;
-            padding: 10px;
+        .dropdown-section {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .dropdown-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+        .legend-section {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .legend-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .legend-scale {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        .legend-color {
+            width: 25px;
+            height: 15px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
         }
         .description {
             margin-top: 15px;
@@ -67,38 +110,16 @@
             color: #7f8c8d;
             font-size: 14px;
         }
-        #dropdown-container {
-            text-align: left;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
         #vis {
             display: block;
+            width: 100%;
         }
-        .legend-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .legend-scale {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-        }
-        .legend-color {
-            width: 20px;
-            height: 12px;
+        select {
+            width: 100%;
+            padding: 8px;
             border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -110,38 +131,46 @@
         </div>
 
         <div class="viz-container">
-            <div class="map-wrapper">
-                <div id="dropdown-container"></div>
-                <div id="vis"></div>
-            </div>
-            <div class="legend-sidebar">
-                <div class="legend-title">Water Consumption (million liters)</div>
-                <div class="legend-scale">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #eff3ff"></div>
-                        <span>0</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #bdd7e7"></div>
-                        <span>500</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #6baed6"></div>
-                        <span>1,000</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #3182bd"></div>
-                        <span>1,500</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #08519c"></div>
-                        <span>2,000</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #08306b"></div>
-                        <span>2,500</span>
+            <div class="left-sidebar">
+                <div class="dropdown-section">
+                    <label for="sector-select">Select Sector:</label>
+                    <select id="sector-select">
+                        <option value="domestic">Domestic</option>
+                        <option value="nondomestic">Non-Domestic</option>
+                    </select>
+                </div>
+                <div class="legend-section">
+                    <div class="legend-title">Water Consumption (million liters)</div>
+                    <div class="legend-scale">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #eff3ff"></div>
+                            <span>0</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #bdd7e7"></div>
+                            <span>500</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #6baed6"></div>
+                            <span>1,000</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #3182bd"></div>
+                            <span>1,500</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #08519c"></div>
+                            <span>2,000</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #08306b"></div>
+                            <span>2,500</span>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="map-wrapper">
+                <div id="vis"></div>
             </div>
         </div>
 
@@ -151,5 +180,15 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Custom dropdown handler
+        document.getElementById('sector-select').addEventListener('change', function(e) {
+            // Get the Vega view and signal
+            const view = document.querySelector('#vis').__view;
+            if (view) {
+                view.signal('sector_select', e.target.value).run();
+            }
+        });
+    </script>
 </body>
 </html>
