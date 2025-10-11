@@ -8,7 +8,7 @@ var vg_1 = {
     "subtitle": "Domestic vs Non-Domestic water use (million liters)",
     "fontSize": 18,
     "subtitleFontSize": 13,
-    "anchor": "middle"
+    "anchor": "start"
   },
 
   "projection": {
@@ -26,7 +26,8 @@ var vg_1 = {
         "input": "select",
         "options": ["domestic", "nondomestic"],
         "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: "
+        "name": "Select Sector: ",
+        "element": "#dropdown-container"
       }
     }
   ],
@@ -105,12 +106,13 @@ var vg_1 = {
           "field": "selected_value",
           "type": "quantitative",
           "title": "Water Consumption (million liters)",
-          "scale": { "domain": [0, 2500], "scheme": "blues" },
+          "scale": { 
+            "domain": [0, 2500], 
+            "scheme": "blues",
+            "range": [0, 2500]
+          },
           "legend": {
-            "orient": "right",
-            "direction": "vertical",
-            "gradientLength": 180,
-            "format": ","
+            "orient": "none"
           }
         },
         "tooltip": [
@@ -143,9 +145,19 @@ var vg_1 = {
 
   "config": {
     "view": { "stroke": null },
-    "legend": { "labelFontSize": 11, "titleFontSize": 12 }
+    "legend": { "disable": true }
   }
 };
+
+// Create a custom container for the dropdown
+const dropdownContainer = document.createElement('div');
+dropdownContainer.id = 'dropdown-container';
+dropdownContainer.style.marginBottom = '10px';
+dropdownContainer.style.textAlign = 'left';
+
+// Insert the dropdown container before the visualization
+const visElement = document.getElementById('vis');
+visElement.parentNode.insertBefore(dropdownContainer, visElement);
 
 // render into div with id="vis"
 vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
