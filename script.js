@@ -148,3 +148,16 @@ var vg_1 = {
     "legend": { "disable": true }
   }
 };
+
+// Create a custom container for the dropdown
+const dropdownContainer = document.createElement('div');
+dropdownContainer.id = 'dropdown-container';
+dropdownContainer.style.marginBottom = '10px';
+dropdownContainer.style.textAlign = 'left';
+
+// Insert the dropdown container before the visualization
+const visElement = document.getElementById('vis');
+visElement.parentNode.insertBefore(dropdownContainer, visElement);
+
+// render into div with id="vis"
+vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
