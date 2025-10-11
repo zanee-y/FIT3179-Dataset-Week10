@@ -1,6 +1,6 @@
 var vg_1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 850,
+  "width": 700,
   "height": 520,
 
   "title": {
@@ -15,7 +15,7 @@ var vg_1 = {
     "type": "mercator",
     "center": [108, 4],
     "scale": 2700,
-    "translate": [450, 260]
+    "translate": [400, 260]
   },
 
   "params": [
@@ -26,8 +26,7 @@ var vg_1 = {
         "input": "select",
         "options": ["domestic", "nondomestic"],
         "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: ",
-        "element": "#dropdown-container"
+        "name": "Select Sector: "
       }
     }
   ],
@@ -105,15 +104,12 @@ var vg_1 = {
         "color": {
           "field": "selected_value",
           "type": "quantitative",
-          "title": "Water Consumption (million liters)",
+          "title": null,
           "scale": { 
             "domain": [0, 2500], 
-            "scheme": "blues",
-            "range": [0, 2500]
+            "scheme": "blues"
           },
-          "legend": {
-            "orient": "none"
-          }
+          "legend": null
         },
         "tooltip": [
           { "field": "properties.Name", "title": "State" },
@@ -148,16 +144,6 @@ var vg_1 = {
     "legend": { "disable": true }
   }
 };
-
-// Create a custom container for the dropdown
-const dropdownContainer = document.createElement('div');
-dropdownContainer.id = 'dropdown-container';
-dropdownContainer.style.marginBottom = '10px';
-dropdownContainer.style.textAlign = 'left';
-
-// Insert the dropdown container before the visualization
-const visElement = document.getElementById('vis');
-visElement.parentNode.insertBefore(dropdownContainer, visElement);
 
 // render into div with id="vis"
 vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
