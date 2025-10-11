@@ -15,7 +15,7 @@
             background-color: #f8f9fa;
         }
         .container {
-            max-width: 1800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .header {
@@ -35,24 +35,13 @@
             font-size: 16px;
             line-height: 1.5;
         }
-        .visualizations {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
         .viz-container {
             background: white;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-        }
-        .map-container {
-            width: 900px;
-        }
-        .chart-container {
-            width: 800px;
+            text-align: center;
         }
         .description {
             margin-top: 15px;
@@ -62,6 +51,10 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 5px;
+            text-align: left;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .footer {
             text-align: center;
@@ -69,32 +62,29 @@
             color: #7f8c8d;
             font-size: 14px;
         }
+        #vis {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Malaysia Water Consumption Analysis (2022)</h1>
-            <p>Interactive visualizations exploring water usage patterns across Malaysian states. Data shows domestic and non-domestic water consumption in million liters.</p>
+            <p>Interactive visualization exploring water usage patterns across Malaysian states. Data shows domestic and non-domestic water consumption in million liters.</p>
         </div>
 
-        <div class="visualizations">
-            <!-- Water Consumption Map -->
-            <div class="viz-container map-container">
-                <div id="waterMap"></div>
-                <div class="description">
-                    <h3>Water Consumption by State and Sector</h3>
-                    <p>This choropleth map shows water consumption across Malaysian states. Use the dropdown to switch between domestic and non-domestic water usage. Darker blue indicates higher consumption levels. Selangor has the highest consumption at 2,230 million liters for domestic use.</p>
-                </div>
-            </div>
-
-            <!-- Bar Chart - Total Water Consumption -->
-            <div class="viz-container chart-container">
-                <div id="waterBarChart"></div>
-                <div class="description">
-                    <h3>Total Water Consumption by State</h3>
-                    <p>This bar chart displays the total water consumption (domestic + non-domestic) for each state. Hover over bars to see exact values. States are sorted by total consumption, showing Selangor as the highest consumer with 3,580 million liters combined.</p>
-                </div>
+        <div class="viz-container">
+            <div id="vis"></div>
+            <div class="description">
+                <h3>Water Consumption by State and Sector</h3>
+                <p>This choropleth map shows water consumption across Malaysian states. Use the dropdown to switch between domestic and non-domestic water usage. Darker blue indicates higher consumption levels. Selangor has the highest consumption at 2,230 million liters for domestic use.</p>
+                <p><strong>Interactions:</strong></p>
+                <ul>
+                    <li>Use the dropdown filter to switch between Domestic and Non-Domestic sectors</li>
+                    <li>Hover over states to see detailed consumption information</li>
+                    <li>Text annotation highlights the highest consumption area</li>
+                </ul>
             </div>
         </div>
 
@@ -104,23 +94,26 @@
     </div>
 
     <script type="text/javascript">
-        // Water Consumption Map
-        const mapSpec = {
+        var vg_1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 850,
   "height": 520,
+
   "title": {
     "text": "Malaysia — Water Consumption by State and Sector (2022)",
     "subtitle": "Domestic vs Non-Domestic water use (million liters)",
     "fontSize": 18,
-    "subtitleFontSize": 13
+    "subtitleFontSize": 13,
+    "anchor": "middle"
   },
+
   "projection": {
     "type": "mercator",
     "center": [108, 4],
     "scale": 2700,
     "translate": [450, 260]
   },
+
   "params": [
     {
       "name": "sector_select",
@@ -133,6 +126,7 @@
       }
     }
   ],
+
   "layer": [
     {
       "data": {
@@ -140,14 +134,14 @@
       },
       "mark": {
         "type": "geoshape",
-        "stroke": "#e0e0e0",
-        "strokeWidth": 0.6,
-        "fill": null
+        "fill": null,
+        "stroke": "#e6e6e6",
+        "strokeWidth": 0.8
       }
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "mark": {
@@ -159,7 +153,7 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Datasets/refs/heads/main/ne_10m_admin_1_states_provinces.json",
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/ne_10m_admin_1_states_provinces.json",
         "format": { "type": "topojson", "feature": "states" }
       },
       "transform": [
@@ -199,127 +193,58 @@
       ],
       "mark": {
         "type": "geoshape",
-        "stroke": "#ffffff",
-        "strokeWidth": 0.8
+        "stroke": "white",
+        "strokeWidth": 0.5
       },
       "encoding": {
         "color": {
           "field": "selected_value",
           "type": "quantitative",
           "title": "Water Consumption (million liters)",
-          "scale": { "scheme": "blues", "domain": [0, 2500] }
+          "scale": { "domain": [0, 2500], "scheme": "blues" },
+          "legend": {
+            "orient": "right",
+            "direction": "vertical",
+            "gradientLength": 180,
+            "format": ","
+          }
         },
         "tooltip": [
-          { "field": "properties.Name", "type": "nominal", "title": "State" },
-          { 
-            "field": "selected_sector",
-            "type": "nominal", 
-            "title": "Sector"
-          },
-          { 
-            "field": "selected_value",
-            "type": "quantitative", 
-            "title": "Consumption (million liters)",
-            "format": "," 
-          }
+          { "field": "properties.Name", "title": "State" },
+          { "field": "selected_sector", "title": "Sector" },
+          { "field": "selected_value", "title": "Consumption (million liters)", "type": "quantitative", "format": "," }
         ]
       }
     },
     {
       "data": {
-          "values": [
+        "values": [
           {"lon": 98.8, "lat": 3.2, "note": "(Highest Consumption Area)"}
-          ]
+        ]
       },
       "mark": {
-          "type": "text", 
-          "fontSize": 9, 
-          "fontWeight": "bold", 
-          "fill": "black",
-          "align": "left",
-          "dx": 5
+        "type": "text", 
+        "fontSize": 9, 
+        "fontWeight": "bold", 
+        "fill": "black",
+        "align": "left"
       },
       "encoding": {
-          "longitude": {"field": "lon", "type": "quantitative"},
-          "latitude": {"field": "lat", "type": "quantitative"},
-          "text": {"field": "note", "type": "nominal"}
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "note", "type": "nominal"}
       }
     }
   ],
+
   "config": {
-    "view": { "stroke": "transparent" }
+    "view": { "stroke": null },
+    "legend": { "labelFontSize": 11, "titleFontSize": 12 }
   }
 };
 
-        // Bar Chart - Total Water Consumption by State
-        const barChartSpec = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 750,
-  "height": 500,
-  "title": {
-    "text": "Total Water Consumption by State (2022)",
-    "subtitle": "Combined domestic and non-domestic usage in million liters",
-    "fontSize": 16,
-    "subtitleFontSize": 12
-  },
-  "data": {
-    "values": [
-      {"state": "Selangor", "domestic": 2230, "nondomestic": 1350, "total": 3580},
-      {"state": "Johor", "domestic": 867, "nondomestic": 536, "total": 1403},
-      {"state": "Sarawak", "domestic": 602, "nondomestic": 463, "total": 1065},
-      {"state": "Perak", "domestic": 699, "nondomestic": 289, "total": 988},
-      {"state": "Kedah", "domestic": 560, "nondomestic": 217, "total": 777},
-      {"state": "Sabah", "domestic": 394, "nondomestic": 238, "total": 632},
-      {"state": "Pahang", "domestic": 385, "nondomestic": 283, "total": 668},
-      {"state": "Penang", "domestic": 534, "nondomestic": 334, "total": 868},
-      {"state": "Negeri Sembilan", "domestic": 307, "nondomestic": 231, "total": 538},
-      {"state": "Terengganu", "domestic": 286, "nondomestic": 173, "total": 459},
-      {"state": "Melaka", "domestic": 228, "nondomestic": 190, "total": 418},
-      {"state": "Kelantan", "domestic": 162, "nondomestic": 77, "total": 239},
-      {"state": "Perlis", "domestic": 80, "nondomestic": 18, "total": 98},
-      {"state": "Labuan", "domestic": 19, "nondomestic": 33, "total": 52}
-    ]
-  },
-  "transform": [
-    {"calculate": "datum.domestic + datum.nondomestic", "as": "total"}
-  ],
-  "mark": {"type": "bar", "cornerRadius": 2},
-  "encoding": {
-    "x": {
-      "field": "total",
-      "type": "quantitative",
-      "title": "Total Water Consumption (million liters)",
-      "axis": {"grid": false}
-    },
-    "y": {
-      "field": "state",
-      "type": "nominal",
-      "title": "State",
-      "sort": "-x",
-      "axis": {"labelLimit": 150}
-    },
-    "color": {
-      "field": "total",
-      "type": "quantitative",
-      "title": "Consumption",
-      "scale": {"scheme": "blues"}
-    },
-    "tooltip": [
-      {"field": "state", "type": "nominal", "title": "State"},
-      {"field": "domestic", "type": "quantitative", "title": "Domestic", "format": ","},
-      {"field": "nondomestic", "type": "quantitative", "title": "Non-Domestic", "format": ","},
-      {"field": "total", "type": "quantitative", "title": "Total", "format": ","}
-    ]
-  },
-  "config": {
-    "view": {"stroke": "transparent"},
-    "axis": {"labelFontSize": 11, "titleFontSize": 12}
-  }
-};
-
-        // Embed the visualizations
-        vegaEmbed('#waterMap', mapSpec);
-        vegaEmbed('#waterBarChart', barChartSpec);
+// render into div with id="vis"
+vegaEmbed("#vis", vg_1, { actions: false }).catch(console.error);
     </script>
 </body>
 </html>
