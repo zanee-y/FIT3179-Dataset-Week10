@@ -104,10 +104,10 @@ var vg_1 = {
         "color": {
           "field": "selected_value",
           "type": "quantitative",
-          "title": null,
           "scale": { 
             "domain": [0, 2500], 
-            "scheme": "blues"
+            "scheme": "blues",
+            "range": [0, 2500]
           },
           "legend": null
         },
@@ -141,6 +141,7 @@ var vg_1 = {
 
   "config": {
     "view": { "stroke": null },
+    "axis": { "disable": true },
     "legend": { "disable": true }
   }
 };
