@@ -306,7 +306,23 @@
         </footer>
     </div>
 
-    <!-- Only include script.js - remove all inline JavaScript -->
-    <script src="script.js"></script>
+    <script>
+    // Simple initialization that uses your script.js variables
+    document.addEventListener('DOMContentLoaded', function() {
+        // Use the variables from your script.js file
+        if (typeof vg_choroplethSpec !== 'undefined') {
+            vegaEmbed('#choropleth', vg_choroplethSpec);
+        }
+        if (typeof vg_lineChartSpec !== 'undefined') {
+            vegaEmbed('#line-chart', vg_lineChartSpec);
+        }
+        if (typeof vg_radialSpec !== 'undefined') {
+            vegaEmbed('#radial-chart', vg_radialSpec);
+        }
+        if (typeof vg_barChartSpec !== 'undefined') {
+            vegaEmbed('#bar-chart', vg_barChartSpec);
+        }
+    });
+</script>
 </body>
 </html>
