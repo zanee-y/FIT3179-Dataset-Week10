@@ -125,13 +125,14 @@
         }
 
         .story-content {
-            font-size: 0.8rem;
-            line-height: 1.0;
+            font-size: 0.9rem; /* Smaller font size */
+            line-height: 1.4; /* Tighter line height */
             text-align: left;
+            color: #555;
         }
 
         .story-content p {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .story-content.ten-word-limit p {
@@ -179,12 +180,15 @@
             margin-bottom: 10px;
             color: #2c3e50;
             text-align: left;
+            font-size: 0.95rem;
         }
 
         .legend-item {
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
             text-align: left;
+            line-height: 1.3;
+            color: #666;
         }
 
         #choropleth, #line-chart, #radial-chart, #bar-chart {
@@ -227,6 +231,11 @@
             
             .side-by-side-container {
                 flex-direction: column;
+            }
+            
+            .story-content {
+                font-size: 0.85rem;
+                line-height: 1.3;
             }
         }
     </style>
