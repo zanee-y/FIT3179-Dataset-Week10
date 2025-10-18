@@ -190,6 +190,7 @@ var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
+  "title": "Water Production vs Consumption Trends by State (2012-2022)",
   "data": {
     "values": []
   },
@@ -336,6 +337,208 @@ var vg_lineChartSpec = {
           {"field": "volume", "title": "Volume", "format": ","},
           {"field": "year", "title": "Year"}
         ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "calculate": "datum.value",
+          "as": "volume"
+        },
+        {
+          "calculate": "'Production'",
+          "as": "type"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "size": 60,
+        "tooltip": true,
+        "fill": "#1f77b4",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "volume",
+          "type": "quantitative",
+          "title": "Water Volume (million liters)"
+        },
+        "tooltip": [
+          {"field": "type", "title": "Type"},
+          {"field": "volume", "title": "Volume", "format": ","},
+          {"field": "year", "title": "Year"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "value",
+              "as": "total_consumption"
+            }
+          ],
+          "groupby": ["state", "year"]
+        },
+        {
+          "calculate": "datum.total_consumption",
+          "as": "volume"
+        },
+        {
+          "calculate": "'Consumption'",
+          "as": "type"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "size": 60,
+        "tooltip": true,
+        "fill": "#ff7f0e",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "volume",
+          "type": "quantitative",
+          "title": "Water Volume (million liters)"
+        },
+        "tooltip": [
+          {"field": "type", "title": "Type"},
+          {"field": "volume", "title": "Volume", "format": ","},
+          {"field": "year", "title": "Year"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "window": [
+            {"op": "rank", "as": "rank"}
+          ],
+          "sort": [{"field": "value", "order": "descending"}]
+        },
+        {
+          "filter": "datum.rank == 1 || datum.rank == length(data('water_production_clean'))"
+        },
+        {
+          "calculate": "datum.rank == 1 ? 'Highest Production: ' + format(datum.value, ',.0f') : 'Lowest Production: ' + format(datum.value, ',.0f')",
+          "as": "prod_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": -50,
+        "dy": 15,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color":"#000000"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "value", "type": "quantitative"},
+        "text": {"field": "prod_label", "type": "nominal"}
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "value",
+              "as": "total_consumption"
+            }
+          ],
+          "groupby": ["state", "year"]
+        },
+        {
+          "window": [
+            {"op": "rank", "as": "rank"}
+          ],
+          "sort": [{"field": "total_consumption", "order": "descending"}]
+        },
+        {
+          "filter": "datum.rank == 1 || datum.rank == length(data('water_consumption_clean'))"
+        },
+        {
+          "calculate": "datum.rank == 1 ? 'Highest Consumption: ' + format(datum.total_consumption, ',.0f') : 'Lowest Consumption: ' + format(datum.total_consumption, ',.0f')",
+          "as": "cons_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": -60,
+        "dy": -11,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#000000"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "total_consumption", "type": "quantitative"},
+        "text": {"field": "cons_label", "type": "nominal"}
       }
     }
   ],
@@ -492,7 +695,7 @@ var vg_barChartSpec = {
       "value": "2022",
       "bind": {
         "input": "select",
-        "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+        "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022],
         "name": "Select Year:"
       }
     }
@@ -522,6 +725,52 @@ var vg_barChartSpec = {
           {"field": "access_difference", "title": "Access Difference", "format": ".1f"},
           {"field": "year", "title": "Year"}
         ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "annotation": "Negative values show that rural areas receive more access to water than urban areas",
+            "x": 1,
+            "y": 1
+          },
+          {
+            "annotation": "Positive values show that urban areas receive more access to water than rural areas",
+            "x": 4,
+            "y": 10
+          },
+          {
+            "annotation": "The zero value shows that there are no differences in water access between rural and urban areas",
+            "x": 1,
+            "y": 2.5
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#666666",
+        "dx": 5
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "title": "Urban-Rural Access Difference (%)"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {"domain": [0.5, 14.5]}
+        },
+        "text": {
+          "field": "annotation",
+          "type": "nominal"
+        }
       }
     }
   ]
