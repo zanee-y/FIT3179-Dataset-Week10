@@ -1,8 +1,9 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification
+// Choropleth Map Specification - Updated with new design
 var vg_choroplethSpec = {
-  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "background": "#a3d5ff",
   "width": 800,
   "height": 500,
   "padding": {"left": 5, "right": 200, "top": 5, "bottom": 5},
@@ -127,7 +128,7 @@ var vg_choroplethSpec = {
       "name": "color",
       "type": "linear",
       "domain": [0, 1.0],
-      "range": {"scheme": "blues"},
+      "range": {"scheme": "reds"},
       "clamp": true
     }
   ],
@@ -136,7 +137,7 @@ var vg_choroplethSpec = {
     {
       "fill": "color",
       "type": "gradient",
-      "title": "Per Capita Consumption (liters/person/day)",
+      "title": "Per Capita Consumption",
       "orient": "right",
       "direction": "vertical",
       "gradientLength": 200,
@@ -178,6 +179,32 @@ var vg_choroplethSpec = {
         }
       },
       "transform": [{"type": "geoshape", "projection": "projection"}]
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},
+          "y": {"value": 345},
+          "text": {"value": "Selangor: Highest consumption"},
+          "fontSize": {"value": 11},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#333"}
+        }
+      }
+    },
+    {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "x": {"value": 80},
+          "y": {"value": 335},
+          "x2": {"value": 100},
+          "y2": {"value": 280},
+          "stroke": {"value": "#333"},
+          "strokeWidth": {"value": 1.5}
+        }
+      }
     }
   ],
   "config": {
@@ -641,12 +668,17 @@ var vg_radialSpec = {
         "type": "text",
         "align": "center",
         "baseline": "middle",
-        "fontSize": 9,
+        "fontSize": 11,
         "fontWeight": "bold",
-        "color": "black"
+        "color": "#333"
       },
       "encoding": {
-        "theta": {"field": "rank", "type": "ordinal", "sort": "ascending"},
+        "theta": {
+          "field": "rank",
+          "type": "ordinal",
+          "sort": "ascending",
+          "axis": null
+        },
         "radius": {
           "field": "value_num",
           "type": "quantitative",
@@ -657,154 +689,112 @@ var vg_radialSpec = {
     }
   ],
   "config": {
-    "view": {"stroke": null},
-    "axis": {"grid": false, "labels": false, "ticks": false}
+    "view": {"stroke": "transparent"}
   }
 };
 
-// Bar Chart Specification
+// Bar Chart Specification for Urban-Rural Water Access Equity
 var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
+  "title": "Urban-Rural Water Access Difference by State",
   "data": {
-    "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv",
-    "format": {"type": "csv"}
+    "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv"
   },
-  "transform": [
-    {
-      "calculate": "split(datum.date, '/')[2]",
-      "as": "year"
-    },
-    {
-      "filter": "datum.year == year_select"
-    },
-    {
-      "pivot": "strata",
-      "value": "proportion",
-      "groupby": ["state", "year"]
-    },
-    {
-      "calculate": "datum.urban - datum.rural",
-      "as": "access_difference"
-    }
-  ],
   "params": [
     {
       "name": "year_select",
       "value": "2022",
       "bind": {
         "input": "select",
-        "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022],
+        "options": [
+          "2012", "2013", "2014", "2015", "2016",
+          "2017", "2018", "2019", "2020", "2021", "2022"
+        ],
         "name": "Select Year:"
       }
     }
   ],
-  "layer": [
+  "transform": [
+    {"calculate": "split(datum.date, '/')[2]", "as": "year"},
+    {"filter": "datum.year == year_select"},
     {
-      "mark": "bar",
-      "encoding": {
-        "x": {
-          "field": "access_difference",
-          "type": "quantitative",
-          "title": "Urban-Rural Access Difference (%)"
-        },
-        "y": {
-          "field": "state",
-          "type": "nominal",
-          "title": "State",
-          "sort": {"field": "access_difference", "order": "descending"}
-        },
-        "color": {
-          "value": "#1f77b4"
-        },
-        "tooltip": [
-          {"field": "state", "title": "State"},
-          {"field": "rural", "title": "Rural Access", "format": ".1f"},
-          {"field": "urban", "title": "Urban Access", "format": ".1f"},
-          {"field": "access_difference", "title": "Access Difference", "format": ".1f"},
-          {"field": "year", "title": "Year"}
-        ]
-      }
+      "calculate": "datum.urban_access - datum.rural_access",
+      "as": "access_difference"
     },
     {
-      "data": {
-        "values": [
-          {
-            "annotation": "Negative values show that rural areas receive more access to water than urban areas",
-            "x": 1,
-            "y": 1
-          },
-          {
-            "annotation": "Positive values show that urban areas receive more access to water than rural areas",
-            "x": 4,
-            "y": 10
-          },
-          {
-            "annotation": "The zero value shows that there are no differences in water access between rural and urban areas",
-            "x": 1,
-            "y": 2.5
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "fontSize": 11,
-        "fontWeight": "normal",
-        "color": "#666666",
-        "dx": 5
-      },
-      "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative",
-          "title": "Urban-Rural Access Difference (%)"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative",
-          "axis": null,
-          "scale": {"domain": [0.5, 14.5]}
-        },
-        "text": {
-          "field": "annotation",
-          "type": "nominal"
-        }
-      }
+      "calculate": "datum.access_difference > 0 ? 'Urban Higher' : 'Rural Higher'",
+      "as": "difference_type"
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "access_difference", "order": "descending"}]
     }
-  ]
+  ],
+  "mark": {
+    "type": "bar",
+    "tooltip": true
+  },
+  "encoding": {
+    "x": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State",
+      "sort": {"field": "access_difference", "order": "descending"},
+      "axis": {"labelAngle": -45}
+    },
+    "y": {
+      "field": "access_difference",
+      "type": "quantitative",
+      "title": "Urban-Rural Access Difference (%)",
+      "scale": {"domain": [-30, 30]}
+    },
+    "color": {
+      "field": "difference_type",
+      "type": "nominal",
+      "title": "Access Type",
+      "scale": {
+        "domain": ["Urban Higher", "Rural Higher"],
+        "range": ["#e74c3c", "#3498db"]
+      },
+      "legend": {"title": "Higher Access"}
+    },
+    "tooltip": [
+      {"field": "state", "type": "nominal", "title": "State"},
+      {"field": "access_difference", "type": "quantitative", "title": "Urban-Rural Gap (%)", "format": ".1f"},
+      {"field": "urban_access", "type": "quantitative", "title": "Urban Access (%)", "format": ".1f"},
+      {"field": "rural_access", "type": "quantitative", "title": "Rural Access (%)", "format": ".1f"},
+      {"field": "year", "type": "ordinal", "title": "Year"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"grid": true, "gridColor": "#f0f0f0"}
+  }
 };
 
-// Function to initialize all visualizations
-function initializeVisualizations() {
-  // Embed all visualizations using the var vg_ variables
-  vegaEmbed('#choropleth', vg_choroplethSpec)
-    .then(result => console.log('Choropleth map loaded successfully'))
-    .catch(error => console.error('Error loading choropleth map:', error));
-  
-  vegaEmbed('#line-chart', vg_lineChartSpec)
-    .then(result => console.log('Line chart loaded successfully'))
-    .catch(error => console.error('Error loading line chart:', error));
-  
-  vegaEmbed('#radial-chart', vg_radialSpec)
-    .then(result => console.log('Radial chart loaded successfully'))
-    .catch(error => console.error('Error loading radial chart:', error));
-  
-  vegaEmbed('#bar-chart', vg_barChartSpec)
-    .then(result => console.log('Bar chart loaded successfully'))
-    .catch(error => console.error('Error loading bar chart:', error));
-}
+// Embed all visualizations
+vegaEmbed('#choropleth', vg_choroplethSpec, {actions: false})
+  .then(function(result) {
+    console.log('Choropleth map embedded successfully');
+  })
+  .catch(console.error);
 
-// Initialize visualizations when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-  initializeVisualizations();
-});
+vegaEmbed('#line-chart', vg_lineChartSpec, {actions: false})
+  .then(function(result) {
+    console.log('Line chart embedded successfully');
+  })
+  .catch(console.error);
 
-// Export specifications for potential external use
-window.visualizationSpecs = {
-  choropleth: vg_choroplethSpec,
-  lineChart: vg_lineChartSpec,
-  radial: vg_radialSpec,
-  barChart: vg_barChartSpec
-};
+vegaEmbed('#radial-chart', vg_radialSpec, {actions: false})
+  .then(function(result) {
+    console.log('Radial chart embedded successfully');
+  })
+  .catch(console.error);
+
+vegaEmbed('#bar-chart', vg_barChartSpec, {actions: false})
+  .then(function(result) {
+    console.log('Bar chart embedded successfully');
+  })
+  .catch(console.error);
