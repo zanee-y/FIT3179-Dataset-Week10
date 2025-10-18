@@ -1,4 +1,4 @@
-// script.js
+// script.js - Malaysia Water Management Analysis Visualizations
 
 // Choropleth Map Specification
 var vg_choroplethSpec = {
