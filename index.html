@@ -192,6 +192,16 @@
             background: white;
             border-radius: 5px;
             padding: 10px;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-placeholder {
+            color: #666;
+            font-style: italic;
+            text-align: center;
         }
 
         footer {
@@ -240,7 +250,9 @@
             </div>
             <div class="chart-container">
                 <div class="chart-title">Per Capita Water Consumption by State and Sector (2012-2022)</div>
-                <div id="choropleth"></div>
+                <div id="choropleth">
+                    <div class="chart-placeholder">Loading choropleth map...</div>
+                </div>
             </div>
         </section>
 
@@ -256,7 +268,9 @@
             </div>
             <div class="chart-container">
                 <div class="chart-title">Water Production vs Consumption Trends by State (2012-2022)</div>
-                <div id="line-chart"></div>
+                <div id="line-chart">
+                    <div class="chart-placeholder">Loading line chart...</div>
+                </div>
             </div>
         </section>
 
@@ -264,7 +278,9 @@
             <h2 class="section-title">Water Production Distribution</h2>
             <div class="side-by-side-container">
                 <div class="chart-box">
-                    <div id="radial-chart"></div>
+                    <div id="radial-chart">
+                        <div class="chart-placeholder">Loading radial chart...</div>
+                    </div>
                 </div>
                 <div class="story-box">
                     <h3 class="story-title">Where Is Water Production Highest?</h3>
@@ -296,7 +312,9 @@
             </div>
             <div class="chart-container">
                 <div class="chart-title">Urban-Rural Water Access Difference by State</div>
-                <div id="bar-chart"></div>
+                <div id="bar-chart">
+                    <div class="chart-placeholder">Loading bar chart...</div>
+                </div>
             </div>
         </section>
 
@@ -306,23 +324,7 @@
         </footer>
     </div>
 
-    <script>
-    // Simple initialization that uses your script.js variables
-    document.addEventListener('DOMContentLoaded', function() {
-        // Use the variables from your script.js file
-        if (typeof vg_choroplethSpec !== 'undefined') {
-            vegaEmbed('#choropleth', vg_choroplethSpec);
-        }
-        if (typeof vg_lineChartSpec !== 'undefined') {
-            vegaEmbed('#line-chart', vg_lineChartSpec);
-        }
-        if (typeof vg_radialSpec !== 'undefined') {
-            vegaEmbed('#radial-chart', vg_radialSpec);
-        }
-        if (typeof vg_barChartSpec !== 'undefined') {
-            vegaEmbed('#bar-chart', vg_barChartSpec);
-        }
-    });
-</script>
+    <!-- Only include the external script file -->
+    <script src="script.js"></script>
 </body>
 </html>
