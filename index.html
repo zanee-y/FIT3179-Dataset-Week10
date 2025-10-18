@@ -83,7 +83,9 @@
             font-size: 2rem;
             color: #2c3e50;
             margin-bottom: 30px;
-            text-align: center;
+            text-align: left;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
 
         .chart-container {
@@ -102,7 +104,6 @@
             font-size: 1.1rem;
         }
 
-        /* Story above chart layout */
         .story-above-container {
             margin-bottom: 30px;
         }
@@ -119,7 +120,8 @@
             font-size: 1.4rem;
             color: #2c3e50;
             margin-bottom: 15px;
-            text-align: center;
+            text-align: left;
+            font-weight: 600;
         }
 
         .story-content {
@@ -130,19 +132,14 @@
 
         .story-content p {
             margin-bottom: 15px;
-            max-width: none;
         }
 
-        /* 10-word line limit for regular story content */
         .story-content.ten-word-limit p {
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 100%;
             word-spacing: 0.3em;
-            text-align: justify;
+            text-align: left;
         }
 
-        /* Side-by-side layout for radial chart section */
         .side-by-side-container {
             display: flex;
             gap: 30px;
@@ -181,11 +178,13 @@
             font-weight: bold;
             margin-bottom: 10px;
             color: #2c3e50;
+            text-align: left;
         }
 
         .legend-item {
             margin-bottom: 5px;
             font-size: 0.9rem;
+            text-align: left;
         }
 
         #choropleth, #line-chart, #radial-chart, #bar-chart {
@@ -219,11 +218,6 @@
             .side-by-side-container {
                 flex-direction: column;
             }
-            
-            .story-content.ten-word-limit p {
-                max-width: 100%;
-                text-align: left;
-            }
         }
     </style>
 </head>
@@ -240,4 +234,79 @@
                 <div class="story-above">
                     <h3 class="story-title">Mapping Malaysia's Water Consumption Patterns</h3>
                     <div class="story-content ten-word-limit">
-                        <p>Water consumption varies significantly across Malaysian states. Urbanized areas like Selangor show highest demand. Rural states maintain much lower usage levels. Domestic consumption spreads evenly across
+                        <p>Water consumption varies significantly across Malaysian states. Urbanized areas like Selangor show highest demand. Rural states maintain much lower usage levels. Domestic consumption spreads evenly across regions. Non-domestic usage concentrates in industrial hubs. Population density drives overall consumption patterns. Selangor leads due to dense population. Heavy daily water usage is required. Infrastructure supports these consumption differences. Economic activities shape water demand.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Per Capita Water Consumption by State and Sector (2012-2022)</div>
+                <div id="choropleth"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Water Production vs Consumption Trends</h2>
+            <div class="story-above-container">
+                <div class="story-above">
+                    <h3 class="story-title">Tracking Malaysia's Water Balance</h3>
+                    <div class="story-content ten-word-limit">
+                        <p>Most states maintain healthy water balance. Production generally exceeds consumption levels. This indicates sustainable water management practices. Some states show concerning trends. Consumption approaches production capacity. Signals potential future water stress. Rapid development increases water demand. Selangor has highest water metrics. W.P. Labuan has lowest usage. Population differences drive these patterns. Monitoring ensures future water security.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Water Production vs Consumption Trends by State (2012-2022)</div>
+                <div id="line-chart"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Water Production Distribution</h2>
+            <div class="side-by-side-container">
+                <div class="chart-box">
+                    <div id="radial-chart"></div>
+                </div>
+                <div class="story-box">
+                    <h3 class="story-title">Where Is Water Production Highest?</h3>
+                    <div class="story-content">
+                        <p>Selangor records the highest water production capacity, followed closely by Johor and Perak. These states have the infrastructure to support their larger populations and industrial activities.</p>
+                        <p>Smaller states like Perlis and W.P. Labuan maintain more modest production levels, reflecting their population sizes and development patterns.</p>
+                        <p>These results highlight Malaysia's strategic water management approach, where production capacity aligns with regional needs and development priorities.</p>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-title">Key Insights:</div>
+                        <div class="legend-item">• <strong>Selangor</strong>: Highest production, supports largest population</div>
+                        <div class="legend-item">• <strong>Johor</strong>: Second highest, industrial and residential demand</div>
+                        <div class="legend-item">• <strong>Perak</strong>: Strong production for agricultural and urban needs</div>
+                        <div class="legend-item">• <strong>W.P. Labuan</strong>: Lowest production, smallest population</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Urban-Rural Water Access Equity</h2>
+            <div class="story-above-container">
+                <div class="story-above">
+                    <h3 class="story-title">Bridging Malaysia's Water Access Gap</h3>
+                    <div class="story-content ten-word-limit">
+                        <p>Urban areas achieve near universal access. Rural communities face significant gaps. Kelantan and Sabah show largest disparities. Infrastructure challenges affect remote areas. Substantial progress made past decade. Continued investment narrows access differences. Federal territories demonstrate full access. Serve as development benchmarks. Melaka and W.P. Labuan show consistency. Zero gap differences maintained. Equity remains key priority.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Urban-Rural Water Access Difference by State</div>
+                <div id="bar-chart"></div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Data Source: Malaysian Water Management Statistics (2012-2022)</p>
+            <p>Visualization created using Vega-Lite | FIT3179 Assignment</p>
+        </footer>
+    </div>
+
+    <!-- Only include script.js - remove all inline JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
