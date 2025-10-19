@@ -1,12 +1,12 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Filters at bottom right
+// Choropleth Map Specification - Filters at bottom left
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "background": "#a3d5ff",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 50},
+  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 80}, // Increased bottom padding for filters
   "autosize": "none",
   "title": {
     "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
@@ -212,11 +212,12 @@ var vg_choroplethSpec = {
   }
 };
 
-// Line Chart Specification - Filter at bottom right
+// Line Chart Specification - Filters at bottom left with restored annotations
 var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
+  "padding": {"bottom": 60}, // Increased bottom padding for filters
   "title": "Water Production vs Consumption Trends by State (2012-2022)",
   "data": {
     "values": []
@@ -471,6 +472,104 @@ var vg_lineChartSpec = {
           {"field": "year", "title": "Year"}
         ]
       }
+    },
+    // Restored Production Annotations
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "window": [
+            {"op": "rank", "as": "rank"}
+          ],
+          "sort": [{"field": "value", "order": "descending"}]
+        },
+        {
+          "filter": "datum.rank == 1"
+        },
+        {
+          "calculate": "'Highest Production: ' + format(datum.value, ',.0f')",
+          "as": "prod_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": -50,
+        "dy": 15,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color":"#000000"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "value", "type": "quantitative"},
+        "text": {"field": "prod_label", "type": "nominal"}
+      }
+    },
+    // Restored Consumption Annotations
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.date, '/')[2]",
+          "as": "year"
+        },
+        {
+          "filter": "datum.state == state_select"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "value",
+              "as": "total_consumption"
+            }
+          ],
+          "groupby": ["state", "year"]
+        },
+        {
+          "window": [
+            {"op": "rank", "as": "rank"}
+          ],
+          "sort": [{"field": "total_consumption", "order": "descending"}]
+        },
+        {
+          "filter": "datum.rank == 1"
+        },
+        {
+          "calculate": "'Highest Consumption: ' + format(datum.total_consumption, ',.0f')",
+          "as": "cons_label"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": -60,
+        "dy": -11,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#000000"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "total_consumption", "type": "quantitative"},
+        "text": {"field": "cons_label", "type": "nominal"}
+      }
     }
   ],
   "config": {
@@ -479,11 +578,12 @@ var vg_lineChartSpec = {
   }
 };
 
-// Radial Chart Specification - Filter at bottom right
+// Radial Chart Specification - Filters at bottom left
 var vg_radialSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 400,
   "height": 400,
+  "padding": {"bottom": 60}, // Increased bottom padding for filters
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv"
   },
@@ -597,11 +697,12 @@ var vg_radialSpec = {
   }
 };
 
-// Bar Chart Specification for Urban-Rural Water Access Equity - Filter at bottom right
+// Bar Chart Specification for Urban-Rural Water Access Equity - Filters at bottom left
 var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
+  "padding": {"bottom": 60}, // Increased bottom padding for filters
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv",
     "format": {"type": "csv"}
