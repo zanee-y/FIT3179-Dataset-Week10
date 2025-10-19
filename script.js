@@ -1,12 +1,11 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Filters at bottom left
+// Choropleth Map Specification - Your original Vega code (unchanged)
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "background": "#a3d5ff",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 80}, // Increased bottom padding for filters
+  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 5},
   "autosize": "none",
   "title": {
     "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
@@ -137,7 +136,7 @@ var vg_choroplethSpec = {
     {
       "fill": "color",
       "type": "gradient",
-      "title": "Per Capita Consumption",
+      "title": "Per Capita Consumption (liters/person/day)",
       "orient": "right",
       "direction": "vertical",
       "gradientLength": 200,
@@ -157,7 +156,7 @@ var vg_choroplethSpec = {
         "update": {
           "strokeWidth": {"value": 0.8},
           "stroke": {"value": "#e6e6e6"},
-          "fill": {"value": null}
+          "fill": {"value": "#1e90ff"}
         }
       },
       "transform": [{"type": "geoshape", "projection": "projection"}]
@@ -212,12 +211,12 @@ var vg_choroplethSpec = {
   }
 };
 
-// Line Chart Specification - Filters at bottom left with restored annotations
+// Line Chart Specification - Updated with bottom padding and restored annotations
 var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
-  "padding": {"bottom": 60}, // Increased bottom padding for filters
+  "padding": {"bottom": 60},
   "title": "Water Production vs Consumption Trends by State (2012-2022)",
   "data": {
     "values": []
@@ -473,7 +472,7 @@ var vg_lineChartSpec = {
         ]
       }
     },
-    // Restored Production Annotations
+    // Restored Production Annotation
     {
       "data": {
         "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv",
@@ -517,7 +516,7 @@ var vg_lineChartSpec = {
         "text": {"field": "prod_label", "type": "nominal"}
       }
     },
-    // Restored Consumption Annotations
+    // Restored Consumption Annotation
     {
       "data": {
         "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
@@ -578,12 +577,12 @@ var vg_lineChartSpec = {
   }
 };
 
-// Radial Chart Specification - Filters at bottom left
+// Radial Chart Specification - Updated with bottom padding
 var vg_radialSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 400,
   "height": 400,
-  "padding": {"bottom": 60}, // Increased bottom padding for filters
+  "padding": {"bottom": 60},
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv"
   },
@@ -697,12 +696,12 @@ var vg_radialSpec = {
   }
 };
 
-// Bar Chart Specification for Urban-Rural Water Access Equity - Filters at bottom left
+// Bar Chart Specification for Urban-Rural Water Access Equity - Updated with bottom padding
 var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
-  "padding": {"bottom": 60}, // Increased bottom padding for filters
+  "padding": {"bottom": 60},
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv",
     "format": {"type": "csv"}
