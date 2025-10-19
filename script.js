@@ -1,11 +1,12 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Your original Vega code (unchanged)
+// Choropleth Map Specification - Your updated code with light blue background
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "background": "#ADD8E6",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 5},
+  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 80}, // Increased bottom padding for filters
   "autosize": "none",
   "title": {
     "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
@@ -216,7 +217,7 @@ var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
-  "padding": {"bottom": 60},
+  "padding": {"bottom": 80},
   "title": "Water Production vs Consumption Trends by State (2012-2022)",
   "data": {
     "values": []
@@ -582,7 +583,7 @@ var vg_radialSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 400,
   "height": 400,
-  "padding": {"bottom": 60},
+  "padding": {"bottom": 80},
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv"
   },
@@ -701,7 +702,7 @@ var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
-  "padding": {"bottom": 60},
+  "padding": {"bottom": 80},
   "data": {
     "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv",
     "format": {"type": "csv"}
