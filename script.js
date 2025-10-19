@@ -1,12 +1,12 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Fixed padding and filter placement
+// Choropleth Map Specification - Filters at bottom right
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "background": "#a3d5ff",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 5},
+  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 50},
   "autosize": "none",
   "title": {
     "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
@@ -21,8 +21,7 @@ var vg_choroplethSpec = {
       "bind": {
         "input": "select",
         "options": [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022],
-        "name": "Select Year: ",
-        "element": "#choropleth-params"
+        "name": "Select Year: "
       }
     },
     {
@@ -32,8 +31,7 @@ var vg_choroplethSpec = {
         "input": "select",
         "options": ["domestic", "nondomestic"],
         "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: ",
-        "element": "#choropleth-params"
+        "name": "Select Sector: "
       }
     }
   ],
@@ -214,7 +212,7 @@ var vg_choroplethSpec = {
   }
 };
 
-// Line Chart Specification
+// Line Chart Specification - Filter at bottom right
 var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
@@ -243,8 +241,7 @@ var vg_lineChartSpec = {
       "bind": {
         "input": "select",
         "options": ["Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", "Sarawak", "Selangor", "Terengganu", "W.P. Labuan"],
-        "name": "Select State: ",
-        "element": "#linechart-params"
+        "name": "Select State: "
       }
     }
   ],
@@ -482,7 +479,7 @@ var vg_lineChartSpec = {
   }
 };
 
-// Radial Chart Specification
+// Radial Chart Specification - Filter at bottom right
 var vg_radialSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 400,
@@ -500,8 +497,7 @@ var vg_radialSpec = {
           "2012", "2013", "2014", "2015", "2016",
           "2017", "2018", "2019", "2020", "2021", "2022"
         ],
-        "name": "Select Year:",
-        "element": "#radial-params"
+        "name": "Select Year:"
       }
     }
   ],
@@ -601,7 +597,7 @@ var vg_radialSpec = {
   }
 };
 
-// Bar Chart Specification for Urban-Rural Water Access Equity
+// Bar Chart Specification for Urban-Rural Water Access Equity - Filter at bottom right
 var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
@@ -635,8 +631,7 @@ var vg_barChartSpec = {
       "bind": {
         "input": "select",
         "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-        "name": "Select Year:",
-        "element": "#barchart-params"
+        "name": "Select Year:"
       }
     }
   ],
