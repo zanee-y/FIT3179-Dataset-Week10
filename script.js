@@ -1,12 +1,12 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Updated with new design
+// Choropleth Map Specification - Fixed padding and filter placement
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "background": "#a3d5ff",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 5},
+  "padding": {"left": 5, "right": 5, "top": 5, "bottom": 5},
   "autosize": "none",
   "title": {
     "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
@@ -21,7 +21,8 @@ var vg_choroplethSpec = {
       "bind": {
         "input": "select",
         "options": [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022],
-        "name": "Select Year: "
+        "name": "Select Year: ",
+        "element": "#choropleth-params"
       }
     },
     {
@@ -31,7 +32,8 @@ var vg_choroplethSpec = {
         "input": "select",
         "options": ["domestic", "nondomestic"],
         "labels": ["Domestic", "Non-Domestic"],
-        "name": "Select Sector: "
+        "name": "Select Sector: ",
+        "element": "#choropleth-params"
       }
     }
   ],
@@ -241,7 +243,8 @@ var vg_lineChartSpec = {
       "bind": {
         "input": "select",
         "options": ["Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", "Sarawak", "Selangor", "Terengganu", "W.P. Labuan"],
-        "name": "Select State: "
+        "name": "Select State: ",
+        "element": "#linechart-params"
       }
     }
   ],
@@ -471,102 +474,6 @@ var vg_lineChartSpec = {
           {"field": "year", "title": "Year"}
         ]
       }
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_production_clean.csv",
-        "format": {"type": "csv"}
-      },
-      "transform": [
-        {
-          "calculate": "split(datum.date, '/')[2]",
-          "as": "year"
-        },
-        {
-          "filter": "datum.state == state_select"
-        },
-        {
-          "window": [
-            {"op": "rank", "as": "rank"}
-          ],
-          "sort": [{"field": "value", "order": "descending"}]
-        },
-        {
-          "filter": "datum.rank == 1 || datum.rank == length(data('water_production_clean'))"
-        },
-        {
-          "calculate": "datum.rank == 1 ? 'Highest Production: ' + format(datum.value, ',.0f') : 'Lowest Production: ' + format(datum.value, ',.0f')",
-          "as": "prod_label"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": -50,
-        "dy": 15,
-        "fontSize": 10,
-        "fontWeight": "bold",
-        "color":"#000000"
-      },
-      "encoding": {
-        "x": {"field": "year", "type": "ordinal"},
-        "y": {"field": "value", "type": "quantitative"},
-        "text": {"field": "prod_label", "type": "nominal"}
-      }
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
-        "format": {"type": "csv"}
-      },
-      "transform": [
-        {
-          "calculate": "split(datum.date, '/')[2]",
-          "as": "year"
-        },
-        {
-          "filter": "datum.state == state_select"
-        },
-        {
-          "aggregate": [
-            {
-              "op": "sum",
-              "field": "value",
-              "as": "total_consumption"
-            }
-          ],
-          "groupby": ["state", "year"]
-        },
-        {
-          "window": [
-            {"op": "rank", "as": "rank"}
-          ],
-          "sort": [{"field": "total_consumption", "order": "descending"}]
-        },
-        {
-          "filter": "datum.rank == 1 || datum.rank == length(data('water_consumption_clean'))"
-        },
-        {
-          "calculate": "datum.rank == 1 ? 'Highest Consumption: ' + format(datum.total_consumption, ',.0f') : 'Lowest Consumption: ' + format(datum.total_consumption, ',.0f')",
-          "as": "cons_label"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": -60,
-        "dy": -11,
-        "fontSize": 10,
-        "fontWeight": "bold",
-        "color": "#000000"
-      },
-      "encoding": {
-        "x": {"field": "year", "type": "ordinal"},
-        "y": {"field": "total_consumption", "type": "quantitative"},
-        "text": {"field": "cons_label", "type": "nominal"}
-      }
     }
   ],
   "config": {
@@ -593,7 +500,8 @@ var vg_radialSpec = {
           "2012", "2013", "2014", "2015", "2016",
           "2017", "2018", "2019", "2020", "2021", "2022"
         ],
-        "name": "Select Year:"
+        "name": "Select Year:",
+        "element": "#radial-params"
       }
     }
   ],
@@ -727,7 +635,8 @@ var vg_barChartSpec = {
       "bind": {
         "input": "select",
         "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-        "name": "Select Year:"
+        "name": "Select Year:",
+        "element": "#barchart-params"
       }
     }
   ],
