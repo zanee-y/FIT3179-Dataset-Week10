@@ -698,80 +698,113 @@ var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
   "height": 500,
-  "title": "Urban-Rural Water Access Difference by State",
   "data": {
-    "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv"
+    "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_access_clean.csv",
+    "format": {"type": "csv"}
   },
+  "transform": [
+    {
+      "calculate": "split(datum.date, '/')[2]",
+      "as": "year"
+    },
+    {
+      "filter": "datum.year == year_select"
+    },
+    {
+      "pivot": "strata",
+      "value": "proportion",
+      "groupby": ["state", "year"]
+    },
+    {
+      "calculate": "datum.urban - datum.rural",
+      "as": "access_difference"
+    }
+  ],
   "params": [
     {
       "name": "year_select",
       "value": "2022",
       "bind": {
         "input": "select",
-        "options": [
-          "2012", "2013", "2014", "2015", "2016",
-          "2017", "2018", "2019", "2020", "2021", "2022"
-        ],
+        "options": ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
         "name": "Select Year:"
       }
     }
   ],
-  "transform": [
-    {"calculate": "split(datum.date, '/')[2]", "as": "year"},
-    {"filter": "datum.year == year_select"},
+  "layer": [
     {
-      "calculate": "datum.urban_access - datum.rural_access",
-      "as": "access_difference"
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "access_difference",
+          "type": "quantitative",
+          "title": "Urban-Rural Access Difference (%)"
+        },
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "title": "State",
+          "sort": {"field": "access_difference", "order": "descending"}
+        },
+        "color": {
+          "value": "#1f77b4"
+        },
+        "tooltip": [
+          {"field": "state", "title": "State"},
+          {"field": "rural", "title": "Rural Access", "format": ".1f"},
+          {"field": "urban", "title": "Urban Access", "format": ".1f"},
+          {"field": "access_difference", "title": "Access Difference", "format": ".1f"},
+          {"field": "year", "title": "Year"}
+        ]
+      }
     },
     {
-      "calculate": "datum.access_difference > 0 ? 'Urban Higher' : 'Rural Higher'",
-      "as": "difference_type"
-    },
-    {
-      "window": [{"op": "rank", "as": "rank"}],
-      "sort": [{"field": "access_difference", "order": "descending"}]
-    }
-  ],
-  "mark": {
-    "type": "bar",
-    "tooltip": true
-  },
-  "encoding": {
-    "x": {
-      "field": "state",
-      "type": "nominal",
-      "title": "State",
-      "sort": {"field": "access_difference", "order": "descending"},
-      "axis": {"labelAngle": -45}
-    },
-    "y": {
-      "field": "access_difference",
-      "type": "quantitative",
-      "title": "Urban-Rural Access Difference (%)",
-      "scale": {"domain": [-30, 30]}
-    },
-    "color": {
-      "field": "difference_type",
-      "type": "nominal",
-      "title": "Access Type",
-      "scale": {
-        "domain": ["Urban Higher", "Rural Higher"],
-        "range": ["#e74c3c", "#3498db"]
+      "data": {
+        "values": [
+          {
+            "annotation": "Negative values show that rural areas receive more access to water than urban areas",
+            "x": 1,
+            "y": 1
+          },
+          {
+            "annotation": "Positive values show that urban areas receive more access to water than rural areas",
+            "x": 4,
+            "y": 10
+          },
+          {
+            "annotation": "The zero value shows that there are no differences in water access between rural and urban areas",
+            "x": 1,
+            "y": 2.5
+          }
+        ]
       },
-      "legend": {"title": "Higher Access"}
-    },
-    "tooltip": [
-      {"field": "state", "type": "nominal", "title": "State"},
-      {"field": "access_difference", "type": "quantitative", "title": "Urban-Rural Gap (%)", "format": ".1f"},
-      {"field": "urban_access", "type": "quantitative", "title": "Urban Access (%)", "format": ".1f"},
-      {"field": "rural_access", "type": "quantitative", "title": "Rural Access (%)", "format": ".1f"},
-      {"field": "year", "type": "ordinal", "title": "Year"}
-    ]
-  },
-  "config": {
-    "view": {"stroke": "transparent"},
-    "axis": {"grid": true, "gridColor": "#f0f0f0"}
-  }
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#666666",
+        "dx": 5
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "title": "Urban-Rural Access Difference (%)"
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {"domain": [0.5, 14.5]}
+        },
+        "text": {
+          "field": "annotation",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
 };
 
 // Embed all visualizations
