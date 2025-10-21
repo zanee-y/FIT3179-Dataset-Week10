@@ -8,8 +8,6 @@ var vg_choroplethSpec = {
   "height": 500,
   "padding": {"left": 5, "right": 200, "top": 5, "bottom": 80}, // Increased bottom padding for filters
   "autosize": "none",
-  "title": {
-    "text": "Malaysia Per Capita Water Consumption by State (2012-2022)",
     "fontSize": 16,
     "anchor": "start"
   },
