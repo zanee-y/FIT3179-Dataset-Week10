@@ -1,12 +1,12 @@
 // script.js - Malaysia Water Management Analysis Visualizations
 
-// Choropleth Map Specification - Your updated code with light blue background
+// Choropleth Map Specification
 var vg_choroplethSpec = {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "background": "#ADD8E6",
   "width": 800,
   "height": 500,
-  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 80}, // Increased bottom padding for filters
+  "padding": {"left": 5, "right": 200, "top": 5, "bottom": 80},
   "autosize": "none",
     "fontSize": 16,
     "anchor": "start"
@@ -210,7 +210,7 @@ var vg_choroplethSpec = {
   }
 };
 
-// Line Chart Specification - Updated with bottom padding and restored annotations
+// Line Chart Specification
 var vg_lineChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
@@ -515,7 +515,6 @@ var vg_lineChartSpec = {
         "text": {"field": "prod_label", "type": "nominal"}
       }
     },
-    // Restored Consumption Annotation
     {
       "data": {
         "url": "https://raw.githubusercontent.com/zanee-y/FIT3179-Dataset-Week10/refs/heads/main/water_consumption_clean.csv",
@@ -576,7 +575,7 @@ var vg_lineChartSpec = {
   }
 };
 
-// Radial Chart Specification - Updated with bottom padding
+// Radial Chart Specification
 var vg_radialSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 400,
@@ -695,7 +694,7 @@ var vg_radialSpec = {
   }
 };
 
-// Bar Chart Specification for Urban-Rural Water Access Equity - Updated with bottom padding
+// Bar Chart
 var vg_barChartSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 800,
